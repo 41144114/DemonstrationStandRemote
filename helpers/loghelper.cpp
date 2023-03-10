@@ -9,6 +9,7 @@
 static QFile* logFile;
 static QMutex* fileMutex;
 
+
 void logOutput(QtMsgType type, const QMessageLogContext& contex, const QString& msg)
 {
     Q_UNUSED(contex);

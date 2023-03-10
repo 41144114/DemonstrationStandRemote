@@ -51,9 +51,9 @@ private:
     QPalette _goodPalette;
     QPalette _errorPalette;
 
-    QBluetoothDeviceDiscoveryAgent* _pBluetoothDiscoveryAgent;
+    QBluetoothServiceDiscoveryAgent* _pBluetoothDiscoveryAgent;
     QMap<QListWidgetItem*, QBluetoothServiceInfo> _discoveredServices;
-    QMap<QListWidgetItem*, QBluetoothDeviceInfo> _discoveredDevices;
+    //    QMap<QListWidgetItem*, QBluetoothDeviceInfo> _discoveredDevices;
 
     void initVariables();
     void initConnections();

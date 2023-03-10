@@ -153,15 +153,15 @@ void MainWindow::saveSettings()
 
 void MainWindow::loadSettings()
 {
-    int x = SettingsHelper::getFromRegistry("Xcoord", -100000).toInt();
-    int y = SettingsHelper::getFromRegistry("Ycoord", -100000).toInt();
-    if (x != -100000 && y != -100000)
-        move(x, y);
+    //    int x = SettingsHelper::getFromRegistry("Xcoord", -100000).toInt();
+    //    int y = SettingsHelper::getFromRegistry("Ycoord", -100000).toInt();
+    //    if (x != -100000 && y != -100000)
+    //        move(x, y);
 
-    int w = SettingsHelper::getFromRegistry("width", -10000).toInt();
-    int h = SettingsHelper::getFromRegistry("height", -10000).toInt();
-    if (w != -10000 && h != -10000)
-        resize(w, h);
+    //    int w = SettingsHelper::getFromRegistry("width", -10000).toInt();
+    //    int h = SettingsHelper::getFromRegistry("height", -10000).toInt();
+    //    if (w != -10000 && h != -10000)
+    //        resize(w, h);
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)

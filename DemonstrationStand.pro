@@ -11,6 +11,7 @@ CONFIG += c++17
 SOURCES += \
     architect/architect.cpp \
     architect/threaddependobject.cpp \
+    architect/waitedsignalhandler.cpp \
     channels/abstractadapter.cpp \
     channels/bluetoothadapter.cpp \
     channels/serialportadapter.cpp \
@@ -45,6 +46,7 @@ SOURCES += \
 HEADERS += \
     architect/architect.h \
     architect/threaddependobject.h \
+    architect/waitedsignalhandler.h \
     channels/abstractadapter.h \
     channels/bluetoothadapter.h \
     channels/serialportadapter.h \

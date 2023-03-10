@@ -17,7 +17,7 @@ void OpenChannelHelper::onOpenPort(AbstractAdapter* adapter, const QVariant sett
             emit open(settings);
             disconnect(this, &OpenChannelHelper::open, adapter, &AbstractAdapter::onOpen);
         },
-        10000, isOk);
+        60000, isOk);
 
     qInfo() << "OpenChannelHelper::openPort retCode: " << retCode;
     if (retCode == kStandardSuccessCode)

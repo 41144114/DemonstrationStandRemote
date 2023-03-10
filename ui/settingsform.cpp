@@ -70,12 +70,20 @@ void SettingsForm::onOpenClosePort()
         }
         else
         {
-            if (_pBluetoothDiscoveryAgent != nullptr && _pBluetoothDiscoveryAgent->isActive())
+            if (_pBluetoothDiscoveryAgent != nullptr)
+            {
                 _pBluetoothDiscoveryAgent->stop();
-
+                delete _pBluetoothDiscoveryAgent;
+                _pBluetoothDiscoveryAgent = nullptr;
+            }
             ui->labelBluetoothStatus->setText("Выполняется подключение...");
+
+            QBluetoothServiceInfo info = _discoveredServices.value(ui->bluetoothDevices->currentItem());
+            qDebug() << "connect to: " << info.serviceName() << info.serviceAvailability() << info.serviceClassUuids()
+                     << info.serviceProvider() << info.serviceUuid() << info.serviceDescription()
+                     << info.serverChannel();
             QVariant container;
-            container.setValue(_discoveredDevices.value(ui->bluetoothDevices->currentItem()));
+            container.setValue(_discoveredServices.value(ui->bluetoothDevices->currentItem()));
             emit openPort("BT", container);
         }
     }
@@ -173,6 +181,7 @@ void SettingsForm::onServiceDiscovered(const QBluetoothServiceInfo& serviceInfo)
     QListWidgetItem* item =
         new QListWidgetItem(QString::fromLatin1("%1 %2").arg(remoteName, serviceInfo.serviceName()));
 
+    qDebug() << serviceInfo.serviceClassUuids() << serviceInfo.serviceName();
     _discoveredServices.insert(item, serviceInfo);
     ui->bluetoothDevices->addItem(item);
 }
@@ -190,7 +199,7 @@ void SettingsForm::onDeviceDiscovered(const QBluetoothDeviceInfo& info)
         //        else
         //            item->setTextColor(QColor(Qt::black));
 
-        _discoveredDevices.insert(item, info);
+        //        _discoveredDevices.insert(item, info);
         ui->bluetoothDevices->addItem(item);
     }
 }
@@ -341,13 +350,15 @@ bool SettingsForm::getIsGoodFileName()
 
 void SettingsForm::setupDiscoveryAgent()
 {
-    _pBluetoothDiscoveryAgent = new QBluetoothDeviceDiscoveryAgent();
-    connect(_pBluetoothDiscoveryAgent, &QBluetoothDeviceDiscoveryAgent::deviceDiscovered, this,
-            &SettingsForm::onDeviceDiscovered);
-    connect(_pBluetoothDiscoveryAgent, &QBluetoothDeviceDiscoveryAgent::finished, this,
+    _pBluetoothDiscoveryAgent = new QBluetoothServiceDiscoveryAgent();
+    //    connect(_pBluetoothDiscoveryAgent, &QBluetoothDeviceDiscoveryAgent::deviceDiscovered, this,
+    //            &SettingsForm::onDeviceDiscovered);
+    connect(_pBluetoothDiscoveryAgent, &QBluetoothServiceDiscoveryAgent::serviceDiscovered, this,
+            &SettingsForm::onServiceDiscovered);
+    connect(_pBluetoothDiscoveryAgent, &QBluetoothServiceDiscoveryAgent::finished, this,
             &SettingsForm::onDiscoveryFinished);
-    connect(_pBluetoothDiscoveryAgent, &QBluetoothDeviceDiscoveryAgent::canceled, this,
+    connect(_pBluetoothDiscoveryAgent, &QBluetoothServiceDiscoveryAgent::canceled, this,
             &SettingsForm::onDiscoveryFinished);
 
-    _pBluetoothDiscoveryAgent->setInquiryType(QBluetoothDeviceDiscoveryAgent::GeneralUnlimitedInquiry);
+    //    _pBluetoothDiscoveryAgent->setInquiryType(QBluetoothDeviceDiscoveryAgent::GeneralUnlimitedInquiry);
 }

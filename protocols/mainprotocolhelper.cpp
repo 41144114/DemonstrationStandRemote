@@ -9,9 +9,12 @@ void MainProtocolHelper::onReceiveData(QByteArray data)
 {
     _incomingBuffer.append(data);
 
+    //    qDebug() << data;
     while (_incomingBuffer.contains(kStandardSync))
     {
         _incomingBuffer.remove(0, _incomingBuffer.indexOf(kStandardSync));
+        if (_incomingBuffer.length() < 3)
+            return;
         quint8 len = _incomingBuffer.at(2);
         if (_incomingBuffer.length() < len)
             return;

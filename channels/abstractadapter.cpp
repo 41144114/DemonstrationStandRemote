@@ -142,6 +142,7 @@ void AbstractAdapter::write(QByteArray data)
 
 void AbstractAdapter::onReadyRead()
 {
+
     _isInputDataExist = true;
     read(); // Тут всё надёжно - у нас уже есть сигнал readyRead - значит с портом порядок
 }
